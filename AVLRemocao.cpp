@@ -298,7 +298,7 @@ NO* removerArvore(NO* no, int valor) {
         // Ação: armazene o ponteiro do filho esquerdo em uma variável temporária,
         //       libere o nó atual e retorne o ponteiro do filho esquerdo
         else if (no->esq != NULL && no->dir == NULL) {
-            NO* aux = no->dir;
+            NO* aux = no->esq;
             free(no);
             return aux;
         }
