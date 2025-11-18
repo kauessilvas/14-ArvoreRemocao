@@ -279,20 +279,29 @@ NO* removerArvore(NO* no, int valor) {
         /* ========== CASO 1: Nó sem filhos (Folha) ========== */
         // Condição: verificar se ambos os ponteiros esquerdo e direito são NULL
         // Ação: libere a memória do nó e retorne NULL para o pai
-     
-        
+        if(no->esq == NULL && no->dir == NULL) {
+            free(no);
+            return NULL;
+		}
         /* ========== CASO 2: Nó com apenas um filho ========== */
         // Subcaso 2a: Apenas filho direito existe (esquerda é NULL)
         // Condição: verificar se o ponteiro esquerdo é NULL
         // Ação: armazene o ponteiro do filho direito em uma variável temporária,
         //       libere o nó atual e retorne o ponteiro do filho direito
-        /
-        
+        else if(no->esq == NULL && no->dir != NULL) {
+            NO* aux = no->dir;
+            free(no);
+            return aux;
+        }
         // Subcaso 2b: Apenas filho esquerdo existe (direita é NULL)
         // Condição: verificar se o ponteiro direito é NULL
         // Ação: armazene o ponteiro do filho esquerdo em uma variável temporária,
         //       libere o nó atual e retorne o ponteiro do filho esquerdo
-            
+        else if (no->esq != NULL && no->dir == NULL) {
+            NO* aux = no->dir;
+            free(no);
+            return aux;
+        }
         /* ========== CASO 3: Nó com dois filhos ========== */
         // Estratégia: Encontrar o sucessor (menor valor da subárvore direita)
         
@@ -300,7 +309,7 @@ NO* removerArvore(NO* no, int valor) {
         // - Comece pelo filho direito do nó atual
         // - Desça sempre pela esquerda até encontrar o nó mais à esquerda
         // - Este é o menor valor da subárvore direita (sucessor)
-      
+
         // Passo 3.2: Copie o valor do sucessor para o nó atual
         // - Isso substitui o valor a ser removido
    
@@ -310,7 +319,15 @@ NO* removerArvore(NO* no, int valor) {
         // - O sucessor terá no máximo um filho direito (nunca tem filho esquerdo)
         // - A remoção será tratada como Caso 1 ou Caso 2
       
-        
+        else {
+            NO* aux = no->dir;
+            while (aux->esq != NULL)
+            {
+                aux = aux->esq;
+            }
+			no->valor = aux->valor;
+			no->dir = removerArvore(no->dir, aux->valor);
+        }
         /* IMPLEMENTE OS TRÊS CASOS ACIMA */
     }
     
